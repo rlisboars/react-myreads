@@ -1,7 +1,8 @@
 # MyReads Project
 
 Project required for React Nanodegree from [Udacity](https://udacity.com/)
-Specification can be foun [here](https://review.udacity.com/#!/rubrics/918/view)
+
+Requirements can be found [here](https://review.udacity.com/#!/rubrics/918/view)
 
 ## TL;DR
 
