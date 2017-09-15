@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book'
 
+// Component that renders a books's shelf
+
 const BooksShelf = (props) => {
     return (
         <div className="bookshelf">
@@ -22,8 +24,11 @@ const BooksShelf = (props) => {
 }
 
 BooksShelf.propTypes =  {
+    /** Shelf title */
     title: PropTypes.string.isRequired,
+    /** Array of books currently on this shelf */
     books: PropTypes.arrayOf(PropTypes.object),
+    /** Callback function from the parent used to redefine a book shelf */
     onChangeShelf: PropTypes.func.isRequired
 }
     

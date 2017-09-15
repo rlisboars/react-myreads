@@ -9,7 +9,7 @@ class Book extends Component {
     static propTypes = {
         /** Book data */
         data: PropTypes.object.isRequired,
-        /** Callback function to change book shelf */
+        /** Callback function from the parent used to redefine a book shelf */
         onChangeShelf: PropTypes.func.isRequired
     }
 

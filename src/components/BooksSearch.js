@@ -9,9 +9,9 @@ import Book from './Book'
  */
 class BooksSearch extends Component {
     static propTypes = {
-        /**  List of books that are in the user shelfs */
+        /**  List of books that are in the user's shelfs */
         myBooks: PropTypes.arrayOf(PropTypes.object).isRequired,
-        /**  Callback function to change book shelf */
+        /**  Callback function from the parent used to redefine a book shelf */
         onChangeShelf: PropTypes.func.isRequired
     }
 
@@ -20,12 +20,15 @@ class BooksSearch extends Component {
         books: undefined
     }
 
-    searchBooks(e) {
-        this.setState({
-            query: e.target.value
-        })
-        if (e.target.value.length > 0) 
-            BooksAPI.search(e.target.value, 20).then(books => {
+    /**
+     * Function that controls the search textfield updating the state and calling the API search
+     * @public
+     * @param {string} query text to be searched
+     */
+    searchBooks(query) {
+        this.setState({ query })
+        if (query > 0) 
+            BooksAPI.search(query, 20).then(books => {
                 if (!books || books.error) this.setState({ books: [] })
                 else {
                     books.map(book => {
@@ -44,18 +47,10 @@ class BooksSearch extends Component {
             <div className="search-books-bar">
               <Link className="close-search" to='/'>Close</Link>
               <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
                 <input 
                     type="text"
                     value={this.state.query} 
-                    onChange={(e) => this.searchBooks(e)}
+                    onChange={(e) => this.searchBooks(e.target.value)}
                     placeholder="Search by title or author"/>
               </div>
             </div>
