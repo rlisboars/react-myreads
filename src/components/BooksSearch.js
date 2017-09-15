@@ -1,15 +1,26 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
+import PropTypes from 'prop-types'
+import * as BooksAPI from '../api/BooksAPI'
 import Book from './Book'
 
-class BookSearch extends Component {
+/**
+ * Component that renders the books search feature.
+ */
+class BooksSearch extends Component {
+    static propTypes = {
+        /**  List of books that are in the user shelfs */
+        myBooks: PropTypes.arrayOf(PropTypes.object).isRequired,
+        /**  Callback function to change book shelf */
+        onChangeShelf: PropTypes.func.isRequired
+    }
+
     state = {
         query: '',
         books: undefined
     }
+
     searchBooks(e) {
-        console.log('entrou')
         this.setState({
             query: e.target.value
         })
@@ -52,7 +63,7 @@ class BookSearch extends Component {
               <ol className="books-grid">
                 { this.state.books && this.state.books.map(book => (
                     <li key={book.id}>
-                        <Book data={book}/>
+                        <Book data={book} onChangeShelf={(book) => this.props.onChangeShelf(book)}/>
                     </li>
                 ))
 
@@ -64,4 +75,4 @@ class BookSearch extends Component {
     }
 }
 
-export default BookSearch
+export default BooksSearch

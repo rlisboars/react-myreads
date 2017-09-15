@@ -1,17 +1,38 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+/**
+ * Component that renders a book thumbnail with a few information for fast identification.
+ */
 
 class Book extends Component {
+    static propTypes = {
+        /** Book data */
+        data: PropTypes.object.isRequired,
+        /** Callback function to change book shelf */
+        onChangeShelf: PropTypes.func.isRequired
+    }
+
     constructor(props) {
         super(props)
         this.state = {
             shelf: props.data.shelf
         }
     }
+
+    /**
+     * Connects the select field with the shelf state and send the changes to parent.
+     * @public
+     * @param {string} newShelf New shelf code: "wantToRead", "currentlyReading" or "read"
+     */
     onChange(newShelf) {
         this.setState({
             shelf: newShelf
         })
+        const updatedBook = Object.assign(this.props.data, { shelf: newShelf })
+        this.props.onChangeShelf(updatedBook)
     }
+
     render() {
         const { data } = this.props
         const coverImage = data.imageLinks ? data.imageLinks.thumbnail : ''
