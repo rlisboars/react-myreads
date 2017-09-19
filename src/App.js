@@ -17,21 +17,10 @@ class BooksApp extends React.Component {
 	}
 
 	changeShelf(book) {
-		let bookIdx
-		this.state.myBooks.find((bk, idx) => {
-			if (bk.id === book.id) {
-				bookIdx = idx
-				return true
-			}
-			return false
-		})
 		BooksAPI.update(book, book.shelf).then(b => {
-			this.setState(prevState => {
-				let updatedBooks = prevState.myBooks.slice()
-				if (bookIdx === undefined) updatedBooks.push(book)
-				else updatedBooks[bookIdx].shelf = book.shelf
-				return { myBooks: updatedBooks }
-			})
+			this.setState(prevState => ({
+				myBooks: prevState.myBooks.filter(b => b.id !== book.id).concat(book)
+			}))
 		})
 	}
 

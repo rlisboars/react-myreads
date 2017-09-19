@@ -54,7 +54,7 @@ class Book extends Component {
                 <div className="book-authors">{data.authors && data.authors.join(' / ')}</div>
             </div>
         )
-        else return null
+        return null
     }
 }
 

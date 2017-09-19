@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import * as BooksAPI from '../api/BooksAPI'
 import Book from './Book'
+import _ from 'lodash'
 
 /**
  * Component that renders the books search feature.
@@ -27,20 +28,26 @@ class BooksSearch extends Component {
      */
     searchBooks(query) {
         this.setState({ query })
+        this.searchDebounced(query.trim())
+    }
+
+    searchDebounced = _.debounce((query) => {
         if (query.trim() !== "") 
             BooksAPI.search(query, 20).then(books => {
                 if (!books || books.error) this.setState({ books: [] })
                 else {
-                    books.map(book => {
-                        const inShelf = this.props.myBooks.find(b => b.id === book.id)
-                        if (inShelf) return Object.assign(book, { shelf: inShelf.shelf })
-                        return book
+                    this.setState({
+                        books: books.map(book => {
+                            const inShelf = this.props.myBooks.find(b => b.id === book.id)
+                            if (inShelf) return Object.assign(book, { shelf: inShelf.shelf })
+                            return book
+                        })
                     })
-                    this.setState({books})
                 }
             })
         else this.setState({ books: [] })
-    }
+    }, 300)
+
     render() {
         return(
             <div className="search-books">
